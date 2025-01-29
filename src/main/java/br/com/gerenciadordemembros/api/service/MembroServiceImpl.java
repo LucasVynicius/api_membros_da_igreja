@@ -45,5 +45,21 @@ public class MembroServiceImpl implements MembroService {
         return membroRepository.findAll();
     }
 
+    @Override
+    public Membro atualizarMembro(Long id, MembroRequestDTO membroRequestDTO) {
+        Membro membroExistente = membroRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
+
+        membroExistente.setNome(membroRequestDTO.nome());
+        membroExistente.setCpf(membroRequestDTO.cpf());
+        membroExistente.setNacionalidade(membroRequestDTO.nacionalidade());
+        membroExistente.setDataNascimento(membroRequestDTO.dataNascimento());
+        membroExistente.setDataBatismo(membroRequestDTO.dataBatismo());
+        membroExistente.setDataConsagracao(membroRequestDTO.dataConsagracao());
+        membroExistente.setCriadoEm(LocalDateTime.now());
+        membroExistente.setTipoMembro(membroRequestDTO.tipoMembro());
+
+        return membroRepository.save(membroExistente);
+    }
+
 
 }

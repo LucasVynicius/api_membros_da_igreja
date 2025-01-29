@@ -16,4 +16,6 @@ public interface MembroService {
 
     List<Membro> buscarTodosMembros();
 
+    Membro atualizarMembro(Long id, MembroRequestDTO membroRequestDTO);
+
 }

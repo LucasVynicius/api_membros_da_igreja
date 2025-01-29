@@ -34,4 +34,10 @@ public class MembroController {
     public List<Membro> buscarTodosMembros(){
         return membroService.buscarTodosMembros();
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Membro atualizarMembro(@PathVariable Long id, @RequestBody MembroRequestDTO membroRequestDTO){
+        return membroService.atualizarMembro(id, membroRequestDTO);
+    }
 }
