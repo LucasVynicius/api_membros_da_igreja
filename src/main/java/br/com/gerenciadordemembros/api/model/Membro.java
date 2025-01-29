@@ -2,9 +2,7 @@ package br.com.gerenciadordemembros.api.model;
 
 import br.com.gerenciadordemembros.api.enums.TipoMembroEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,7 +12,8 @@ import java.time.LocalDateTime;
 @Table(name = "membro")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@EqualsAndHashCode
+@ToString
 public class Membro implements Serializable {
 
     @Id
@@ -45,4 +44,72 @@ public class Membro implements Serializable {
     @Column(name = "tipo_membro", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoMembroEnum tipoMembro;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public LocalDate getDataBatismo() {
+        return dataBatismo;
+    }
+
+    public void setDataBatismo(LocalDate dataBatismo) {
+        this.dataBatismo = dataBatismo;
+    }
+
+    public LocalDate getDataConsagracao() {
+        return dataConsagracao;
+    }
+
+    public void setDataConsagracao(LocalDate dataConsagracao) {
+        this.dataConsagracao = dataConsagracao;
+    }
+
+    public LocalDateTime getCriadoEm() {
+        return criadoEm;
+    }
+
+    public void setCriadoEm(LocalDateTime criadoEm) {
+        this.criadoEm = criadoEm;
+    }
+
+    public TipoMembroEnum getTipoMembro() {
+        return tipoMembro;
+    }
+
+    public void setTipoMembro(TipoMembroEnum tipoMembro) {
+        this.tipoMembro = tipoMembro;
+    }
 }
