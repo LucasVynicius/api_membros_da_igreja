@@ -5,13 +5,13 @@ import br.com.gerenciadordemembros.api.enums.TipoMembroEnum;
 import java.time.LocalDate;
 
 public record MembroRequestDTO(
-
-        String nome,
+        String nomeCompleto,
         String cpf,
-        String nacionalidade,
+        String rg,
+        String telefone,
         LocalDate dataNascimento,
         LocalDate dataBatismo,
-        LocalDate dataConsagracao,
-        TipoMembroEnum tipoMembro
+        LocalDate dataEntrada,
+        Boolean ativo
 ) {
 }

@@ -10,12 +10,12 @@ import java.util.List;
 @Service
 public interface MembroService {
 
-    MembroResponseDTO criarMembro(MembroRequestDTO membroRequestDTO);
+    MembroResponseDTO criarMembro(MembroRequestDTO dto);
 
-    Membro buscarMembroPeloId(Long id);
+    MembroResponseDTO buscarMembroPeloId(Long id);
 
-    List<Membro> buscarTodosMembros();
+    List<MembroResponseDTO> buscarTodosMembros();
 
-    Membro atualizarMembro(Long id, MembroRequestDTO membroRequestDTO);
+    MembroResponseDTO atualizarMembro(Long id, MembroRequestDTO dto);
 
 }

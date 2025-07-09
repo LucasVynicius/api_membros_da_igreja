@@ -2,21 +2,13 @@ spring:
   application:
     name: Gerenciamento de membros
   datasource:
-    url: jdbc:postgresql://localhost:5438/gerenciador_de_membros
+    url: jdbc:postgresql://localhost:5432/gerenciador_de_membros
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 1995
-    testWhileIdle: true
-    validationQuery: "SELECT 1"
-    hikari:
-      minimum-idle: 5
-      maximum-pool-size: 20
-      idle-timeout: 600000
-      connection-timeout: 30000
-      max-lifetime: 1800000
   jpa:
     show-sql: true
-    ddl-auto: update
-    naming:
-      implicit-strategy: "org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl"
-      physical-strategy: "org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl"
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect

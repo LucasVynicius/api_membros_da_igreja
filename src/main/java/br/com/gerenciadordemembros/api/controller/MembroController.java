@@ -4,40 +4,41 @@ import br.com.gerenciadordemembros.api.dtos.MembroRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MembroResponseDTO;
 import br.com.gerenciadordemembros.api.model.Membro;
 import br.com.gerenciadordemembros.api.service.MembroService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/membros")
+@RequiredArgsConstructor
 public class MembroController {
 
-    @Autowired
-    MembroService membroService;
+
+    private final MembroService membroService;
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public MembroResponseDTO criarMembro(@RequestBody MembroRequestDTO membroRequestDTO){
-        return membroService.criarMembro(membroRequestDTO);
+    public ResponseEntity<MembroResponseDTO> criarMembro(@RequestBody MembroRequestDTO dto){
+        MembroResponseDTO membroCriado = membroService.criarMembro(dto);
+        return ResponseEntity.status(201).body(membroCriado);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Membro buscarMembroPeloId(@PathVariable Long id){
-        return membroService.buscarMembroPeloId(id);
+    public ResponseEntity<MembroResponseDTO> buscarMembroPeloId(@PathVariable Long id){
+        return ResponseEntity.ok(membroService.buscarMembroPeloId(id));
     }
 
     @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<Membro> buscarTodosMembros(){
-        return membroService.buscarTodosMembros();
+    public ResponseEntity<List<MembroResponseDTO>> buscarTodosMembros(){
+        return ResponseEntity.ok(membroService.buscarTodosMembros());
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public Membro atualizarMembro(@PathVariable Long id, @RequestBody MembroRequestDTO membroRequestDTO){
-        return membroService.atualizarMembro(id, membroRequestDTO);
+    public ResponseEntity<MembroResponseDTO> atualizarMembro(@PathVariable Long id, @RequestBody MembroRequestDTO dto){
+        return ResponseEntity.ok(membroService.atualizarMembro(id, dto));
     }
 }
