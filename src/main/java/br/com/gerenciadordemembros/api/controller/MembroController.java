@@ -4,6 +4,7 @@ import br.com.gerenciadordemembros.api.dtos.MembroRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MembroResponseDTO;
 import br.com.gerenciadordemembros.api.model.Membro;
 import br.com.gerenciadordemembros.api.service.MembroService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class MembroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MembroResponseDTO> atualizarMembro(@PathVariable Long id, @RequestBody MembroRequestDTO dto){
+    public ResponseEntity<MembroResponseDTO> atualizarMembro(@PathVariable Long id, @Valid @RequestBody MembroRequestDTO dto){
         return ResponseEntity.ok(membroService.atualizarMembro(id, dto));
     }
 }

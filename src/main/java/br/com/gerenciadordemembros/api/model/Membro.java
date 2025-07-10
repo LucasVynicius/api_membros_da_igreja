@@ -21,7 +21,7 @@ public class Membro implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", nullable = false, length = 150)
+    @Column(name = "nome_completo", nullable = false, length = 150)
     private String nomeCompleto;
 
     @Column(name = "cpf", nullable = false, length = 11, unique = true)
@@ -47,6 +47,10 @@ public class Membro implements Serializable {
 
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
+    private Endereco endereco;
 
     @Column(name = "criado_em", nullable = false)
     @CreationTimestamp

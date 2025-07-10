@@ -11,6 +11,7 @@ public record MembroResponseDTO(
         LocalDate dataNascimento,
         LocalDate dataBatismo,
         LocalDate dataEntrada,
-        Boolean ativo
+        Boolean ativo,
+        EnderecoDTO endereco
 ) {
 }

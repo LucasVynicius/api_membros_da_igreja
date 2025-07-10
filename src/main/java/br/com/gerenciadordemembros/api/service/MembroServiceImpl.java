@@ -2,6 +2,7 @@ package br.com.gerenciadordemembros.api.service;
 
 import br.com.gerenciadordemembros.api.dtos.MembroRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MembroResponseDTO;
+import br.com.gerenciadordemembros.api.mapper.EnderecoMapper;
 import br.com.gerenciadordemembros.api.mapper.MembroMapper;
 import br.com.gerenciadordemembros.api.model.Membro;
 import br.com.gerenciadordemembros.api.repository.MembroRepository;
@@ -22,6 +23,7 @@ public class MembroServiceImpl implements MembroService {
 
     private final MembroRepository membroRepository;
     private final MembroMapper membroMapper;
+    private final EnderecoMapper enderecoMapper;
 
     @Override
     public MembroResponseDTO criarMembro(MembroRequestDTO dto) {
@@ -58,6 +60,7 @@ public class MembroServiceImpl implements MembroService {
         membro.setDataBatismo(dto.dataBatismo());
         membro.setDataEntrada(dto.dataEntrada());
         membro.setAtivo(dto.ativo());
+        membro.setEndereco(enderecoMapper.toEntity(dto.endereco()));
 
         membroRepository.save(membro);
 
