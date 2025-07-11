@@ -1,6 +1,5 @@
 package br.com.gerenciadordemembros.api.model;
 
-import br.com.gerenciadordemembros.api.enums.TipoMembroEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;

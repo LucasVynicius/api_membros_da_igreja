@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IgrejaRespository extends JpaRepository<Igreja, Long> {
+public interface IgrejaRepository extends JpaRepository<Igreja, Long> {
 }

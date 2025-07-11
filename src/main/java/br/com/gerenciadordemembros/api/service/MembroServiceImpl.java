@@ -6,16 +6,14 @@ import br.com.gerenciadordemembros.api.mapper.EnderecoMapper;
 import br.com.gerenciadordemembros.api.mapper.MembroMapper;
 import br.com.gerenciadordemembros.api.model.Igreja;
 import br.com.gerenciadordemembros.api.model.Membro;
-import br.com.gerenciadordemembros.api.repository.IgrejaRespository;
+import br.com.gerenciadordemembros.api.repository.IgrejaRepository;
 import br.com.gerenciadordemembros.api.repository.MembroRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,7 +24,7 @@ public class MembroServiceImpl implements MembroService {
     private final MembroRepository membroRepository;
     private final MembroMapper membroMapper;
     private final EnderecoMapper enderecoMapper;
-    private final IgrejaRespository igrejaRespository;
+    private final IgrejaRepository igrejaRespository;
 
     @Override
     public MembroResponseDTO criarMembro(MembroRequestDTO dto) {

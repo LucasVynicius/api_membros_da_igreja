@@ -5,7 +5,7 @@ import br.com.gerenciadordemembros.api.dtos.IgrejaResponseDTO;
 import br.com.gerenciadordemembros.api.mapper.EnderecoMapper;
 import br.com.gerenciadordemembros.api.mapper.IgrejaMapper;
 import br.com.gerenciadordemembros.api.model.Igreja;
-import br.com.gerenciadordemembros.api.repository.IgrejaRespository;
+import br.com.gerenciadordemembros.api.repository.IgrejaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class IgrejaServiceImpl implements IgrejaService{
 
-    private final IgrejaRespository igrejaRespository;
+    private final IgrejaRepository igrejaRespository;
     private final IgrejaMapper igrejaMapper;
     private final EnderecoMapper enderecoMapper;
 
