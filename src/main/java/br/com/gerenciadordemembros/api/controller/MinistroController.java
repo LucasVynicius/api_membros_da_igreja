@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/ministro")
+@RequestMapping("/ministros")
 public class MinistroController {
 
     private final MinistroService ministroService;
