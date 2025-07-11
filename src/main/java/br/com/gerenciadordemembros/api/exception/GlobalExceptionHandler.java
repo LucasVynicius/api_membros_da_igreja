@@ -34,9 +34,17 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, ex.getStatusCode());
     }
 
+//    @ExceptionHandler(Exception.class)
+//    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+//        String errorMessage = "Ocorreu um erro interno. Entre em contato com o suporte.";
+//        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
+
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        String errorMessage = "Ocorreu um erro interno. Entre em contato com o suporte.";
-        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<String> handleException(Exception ex) {
+        ex.printStackTrace(); // log no console
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Erro interno: " + ex.getMessage());
     }
 }

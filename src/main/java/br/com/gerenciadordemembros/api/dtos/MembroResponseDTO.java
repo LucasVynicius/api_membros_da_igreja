@@ -8,10 +8,15 @@ public record MembroResponseDTO(
         String cpf,
         String rg,
         String telefone,
+        String email,
         LocalDate dataNascimento,
         LocalDate dataBatismo,
         LocalDate dataEntrada,
         Boolean ativo,
-        EnderecoDTO endereco
+        EnderecoDTO endereco,
+        String igrejaNome,
+        String igrejaNomeFantasia,
+        String igrejaCidade,
+        String igrejaPais
 ) {
 }

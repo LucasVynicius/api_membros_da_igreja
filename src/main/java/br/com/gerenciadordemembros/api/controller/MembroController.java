@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/membros")
+@RequestMapping("/membro")
 @RequiredArgsConstructor
 public class MembroController {
 
@@ -28,7 +28,6 @@ public class MembroController {
     }
 
     @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<MembroResponseDTO> buscarMembroPeloId(@PathVariable Long id){
         return ResponseEntity.ok(membroService.buscarMembroPeloId(id));
     }

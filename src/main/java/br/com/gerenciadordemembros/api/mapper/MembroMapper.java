@@ -12,5 +12,9 @@ public interface MembroMapper {
     @Mapping(target = "id", ignore = true)
     Membro toEntity(MembroRequestDTO dto);
 
+    @Mapping(source = "igreja.nome", target = "igrejaNome", defaultValue = "")
+    @Mapping(source = "igreja.nomeFantasia", target = "igrejaNomeFantasia", defaultValue = "")
+    @Mapping(source = "igreja.endereco.cidade", target = "igrejaCidade", defaultValue = "")
+    @Mapping(source = "igreja.endereco.pais", target = "igrejaPais", defaultValue = "")
     MembroResponseDTO toDTO(Membro membro);
 }

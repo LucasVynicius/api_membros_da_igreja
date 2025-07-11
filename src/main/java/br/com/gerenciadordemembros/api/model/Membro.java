@@ -52,6 +52,10 @@ public class Membro implements Serializable {
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
+    @ManyToOne
+    @JoinColumn(name = "igreja_id", referencedColumnName = "id")
+    private Igreja igreja;
+
     @Column(name = "criado_em", nullable = false)
     @CreationTimestamp
     private LocalDateTime criadoEm;
