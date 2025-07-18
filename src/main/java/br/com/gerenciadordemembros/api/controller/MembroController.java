@@ -2,20 +2,18 @@ package br.com.gerenciadordemembros.api.controller;
 
 import br.com.gerenciadordemembros.api.dtos.MembroRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MembroResponseDTO;
-import br.com.gerenciadordemembros.api.model.Membro;
 import br.com.gerenciadordemembros.api.service.MembroService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/membro")
+@RequestMapping("api/membros")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class MembroController {
 
 

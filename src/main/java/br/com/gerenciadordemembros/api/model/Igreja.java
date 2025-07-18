@@ -26,6 +26,10 @@ public class Igreja implements Serializable {
     @Column(name = "nome_fantasia", length = 100, nullable = false)
     private String nomeFantasia;
 
+    @OneToOne
+    @JoinColumn(name = "pastor_local_id", referencedColumnName = "id")
+    private Ministro pastorLocal;
+
     @Column(name = "data_fundacao", nullable = false)
     private LocalDate dataFundacao;
 

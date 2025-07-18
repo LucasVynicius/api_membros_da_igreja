@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_membro")
@@ -55,6 +56,9 @@ public class Membro implements Serializable {
     @JoinColumn(name = "igreja_id", referencedColumnName = "id")
     private Igreja igreja;
 
+    @OneToMany(mappedBy = "membro", cascade = CascadeType.ALL)
+    private List<Ministro> ministros;
+
     @Column(name = "criado_em", nullable = false)
     @CreationTimestamp
     private LocalDateTime criadoEm;
@@ -62,7 +66,6 @@ public class Membro implements Serializable {
     @Column(name = "atualizado_em", nullable = false)
     @UpdateTimestamp
     private LocalDateTime atualizadoEm;
-
 
 
 }

@@ -9,6 +9,8 @@ public record IgrejaResponseDTO(
         String cidade,
         String pais,
         LocalDate dataFundacao,
+        Long pastorLocalId,
+        String pastorLocalNome,
         EnderecoDTO endereco
 ) {
 }

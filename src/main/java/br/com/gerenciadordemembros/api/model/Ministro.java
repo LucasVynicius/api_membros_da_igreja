@@ -27,8 +27,8 @@ public class Ministro implements Serializable {
     @Column(name = "data_consagracao", nullable = false)
     private LocalDate dataConsagracao;
 
-    @OneToOne
-    @JoinColumn(name = "membro_id", referencedColumnName = "id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "membro_id", referencedColumnName = "id")
     private Membro membro;
 
     @ManyToOne

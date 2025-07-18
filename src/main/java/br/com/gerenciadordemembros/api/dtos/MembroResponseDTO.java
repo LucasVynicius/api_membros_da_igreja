@@ -14,6 +14,7 @@ public record MembroResponseDTO(
         LocalDate dataEntrada,
         Boolean ativo,
         EnderecoDTO endereco,
+        Long idIgreja,
         String igrejaNome,
         String igrejaNomeFantasia,
         String igrejaCidade,

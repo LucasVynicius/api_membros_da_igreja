@@ -10,11 +10,15 @@ import org.mapstruct.Mapping;
 public interface IgrejaMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "pastorLocal", ignore = true)
+    @Mapping(target = "membros", ignore = true)
     Igreja toEntity(IgrejaRequestDTO dto);
 
     @Mapping(source = "nomeFantasia", target = "nomeFantasia")
     @Mapping(source = "endereco.cidade", target = "cidade")
     @Mapping(source = "endereco.pais", target = "pais")
+    @Mapping(source = "pastorLocal.id", target = "pastorLocalId")
+    @Mapping(source = "pastorLocal.membro.nomeCompleto", target = "pastorLocalNome")
     IgrejaResponseDTO toDTO(Igreja igreja);
 
 }

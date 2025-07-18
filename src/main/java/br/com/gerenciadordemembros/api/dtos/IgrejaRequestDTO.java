@@ -6,6 +6,7 @@ public record IgrejaRequestDTO(
         String nome,
         LocalDate dataFundacao,
         String nomeFantasia,
+        Long pastorLocalId,
         EnderecoDTO endereco
 
 ) {
