@@ -15,14 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Membro implements Serializable {
+public class Member implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nome_completo", nullable = false, length = 150)
-    private String nomeCompleto;
+    private String fullName;
 
     @Column(name = "cpf", nullable = false, length = 11, unique = true)
     private String cpf;
@@ -31,41 +31,41 @@ public class Membro implements Serializable {
     private String rg;
 
     @Column(name = "telefone", nullable = false)
-    private String telefone;
+    private String telephone;
 
     @Column(name = "email")
     private String email;
 
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataNascimento;
+    private LocalDate dateOfBirth;
 
     @Column(name = "data_batismo", nullable = false)
-    private LocalDate dataBatismo;
+    private LocalDate baptismDate;
 
     @Column(name = "data_entrada", nullable = false)
-    private LocalDate dataEntrada;
+    private LocalDate entryDate;
 
     @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    private Boolean active;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
+    private Address address;
 
     @ManyToOne
     @JoinColumn(name = "igreja_id", referencedColumnName = "id")
-    private Igreja igreja;
+    private Church church;
 
     @OneToMany(mappedBy = "membro", cascade = CascadeType.ALL)
-    private List<Ministro> ministros;
+    private List<Minister> ministers;
 
     @Column(name = "criado_em", nullable = false)
     @CreationTimestamp
-    private LocalDateTime criadoEm;
+    private LocalDateTime creatingIn;
 
     @Column(name = "atualizado_em", nullable = false)
     @UpdateTimestamp
-    private LocalDateTime atualizadoEm;
+    private LocalDateTime updatedOn;
 
 
 }

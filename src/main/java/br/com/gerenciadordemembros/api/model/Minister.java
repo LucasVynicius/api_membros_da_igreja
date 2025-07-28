@@ -1,6 +1,6 @@
 package br.com.gerenciadordemembros.api.model;
 
-import br.com.gerenciadordemembros.api.enums.CargoMinisterial;
+import br.com.gerenciadordemembros.api.enums.MinisterialPosition;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "tb_ministro")
-public class Ministro implements Serializable {
+public class Minister implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +22,16 @@ public class Ministro implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "cargo", nullable = false, length = 60)
-    private CargoMinisterial cargo;
+    private MinisterialPosition position;
 
     @Column(name = "data_consagracao", nullable = false)
-    private LocalDate dataConsagracao;
+    private LocalDate consecrationDate;
 
     @ManyToOne
     @JoinColumn(name = "membro_id", referencedColumnName = "id")
-    private Membro membro;
+    private Member member;
 
     @ManyToOne
     @JoinColumn(name = "igreja_id", referencedColumnName = "id")
-    private Igreja igreja;
+    private Church church;
 }

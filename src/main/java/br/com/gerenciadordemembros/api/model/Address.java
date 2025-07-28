@@ -12,36 +12,36 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Endereco implements Serializable {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "logradouro", nullable = false, length = 150)
-    private String logradouro;
+    private String street;
 
     @Column(name = "numero", nullable = false, length = 10)
-    private String numero;
+    private String number;
 
     @Column(name = "complemento", nullable = false, length = 50)
-    private String complemento;
+    private String complement;
 
     @Column(name = "bairro", nullable = false, length = 50)
-    private String bairro;
+    private String neighborhood;
 
     @Column(name = "cidade", nullable = false, length = 50)
-    private String cidade;
+    private String city;
 
     @Column(name = "estado", nullable = false, length = 50)
-    private String estado;
+    private String state;
 
     @Column(name = "pais", nullable = false, length = 50)
-    private String pais;
+    private String country;
 
     @Column(name = "nacionalidade", nullable = false)
-    private String nacionalidade;
+    private String nationality;
 
     @Column(name = "cep", nullable = false, length = 20)
-    private String cep;
+    private String zipCode;
 }

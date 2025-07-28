@@ -3,7 +3,7 @@ package br.com.gerenciadordemembros.api.dtos;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record EnderecoDTO(
+public record AddressDTO(
         @NotBlank(message = "Logradouro é obrigatório")
         @Size(max = 150)
         String logradouro,

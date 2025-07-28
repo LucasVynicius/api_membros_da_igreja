@@ -14,29 +14,29 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Igreja implements Serializable {
+public class Church implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nome_igreja", nullable = false, length = 100)
-    private String nome;
+    private String name;
 
     @Column(name = "nome_fantasia", length = 100, nullable = false)
-    private String nomeFantasia;
+    private String tradeName;
 
     @OneToOne
     @JoinColumn(name = "pastor_local_id", referencedColumnName = "id")
-    private Ministro pastorLocal;
+    private Minister pastorLocal;
 
     @Column(name = "data_fundacao", nullable = false)
-    private LocalDate dataFundacao;
+    private LocalDate foundationDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private Endereco endereco;
+    private Address address;
 
     @OneToMany(mappedBy = "igreja",cascade = CascadeType.ALL)
-    private List<Membro> membros;
+    private List<Member> members;
 }
