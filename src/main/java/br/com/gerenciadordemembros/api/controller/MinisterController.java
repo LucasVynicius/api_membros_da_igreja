@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/ministros")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class MinisterController {
 
     private final MinisterService ministerService;
