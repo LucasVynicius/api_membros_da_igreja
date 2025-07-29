@@ -9,6 +9,7 @@ import br.com.gerenciadordemembros.api.model.Minister;
 import br.com.gerenciadordemembros.api.repository.ChurchRepository;
 import br.com.gerenciadordemembros.api.repository.MemberRepository;
 import br.com.gerenciadordemembros.api.repository.MinisterRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -45,21 +46,58 @@ public class MinisterServiceImpl implements MinisterService {
 
     @Override
     public MinisterResponseDTO searchMinisterById(Long id) {
-        return null;
+        Minister minister = ministerRepository.findById(id).orElseThrow(
+                () ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado")
+        );
+        return ministerMapper.toDTO(minister);
     }
 
     @Override
     public List<MinisterResponseDTO> listMinister() {
-        return List.of();
+        return ministerRepository.findAll().stream().map(ministerMapper::toDTO).toList();
     }
 
+    @Transactional
     @Override
     public MinisterResponseDTO updateMinister(Long id, MinisterRequestDTO dto) {
-        return null;
+        Minister minister = ministerRepository.findById(id).orElseThrow(
+                () ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado")
+        );
+
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
+
+
+        Church church = churchRepository.findById(dto.idChurch())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente."));
+
+        if (!minister.getMember().getId().equals(dto.idMember())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar o membro de um registro ministerial existente. " +
+                    "Crie um novo registro se for para outro membro..");
+        }
+        if (!minister.getChurch().getId().equals(dto.idChurch())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar a igreja de um registro ministerial existente. " +
+                    "Crie um novo registro se for de outra igreja.");
+        }
+
+        minister.setPosition(dto.position());
+        minister.setConsecrationDate(dto.consecrationDate());
+
+
+        ministerRepository.save(minister);
+
+        return ministerMapper.toDTO(minister);
+
     }
 
     @Override
-    public void deletarMinistro(Long id) {
+    public void deleteMinister(Long id) {
+        if (!ministerRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado");
+        }
 
+        ministerRepository.deleteById(id);
     }
 }

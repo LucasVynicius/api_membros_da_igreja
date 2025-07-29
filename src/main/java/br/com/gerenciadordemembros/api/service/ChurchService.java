@@ -16,5 +16,5 @@ public interface ChurchService {
 
     ChurchResponseDTO updateChurch(Long id, ChurchRequestDTO dto);
 
-    void deletarIgreja(Long id);
+    void deleteChurch(Long id);
 }

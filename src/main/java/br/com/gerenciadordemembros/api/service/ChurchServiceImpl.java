@@ -8,6 +8,7 @@ import br.com.gerenciadordemembros.api.model.Church;
 import br.com.gerenciadordemembros.api.model.Minister;
 import br.com.gerenciadordemembros.api.repository.ChurchRepository;
 import br.com.gerenciadordemembros.api.repository.MinisterRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -65,8 +66,15 @@ public class ChurchServiceImpl implements ChurchService {
         return churchMapper.toDTO(church);
     }
 
+    @Transactional
     @Override
-    public void deletarIgreja(Long id) {
-
+    public void deleteChurch(Long id) {
+        if (!churchRespository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente.");
+        }
+        churchRespository.deleteById(id);
     }
+
+
 }

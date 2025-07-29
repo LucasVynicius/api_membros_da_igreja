@@ -24,7 +24,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final AddressMapper addressMapper;
-    private final ChurchRepository igrejaRespository;
+    private final ChurchRepository churchRepository;
 
     @Override
     public MemberResponseDTO registerMember(MemberRequestDTO dto) {
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
 
-        Church church = igrejaRespository.findById(dto.idIgreja())
+        Church church = churchRepository.findById(dto.idIgreja())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente."));
 
@@ -78,8 +78,13 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     @Override
-    public void deletarMembro(Long id) {
+    public void deleteMember(Long id) {
+        if (!memberRepository.existsById(id)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." );
+        }
 
+        memberRepository.deleteById(id);
     }
 
 

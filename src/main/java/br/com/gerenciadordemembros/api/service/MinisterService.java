@@ -17,5 +17,5 @@ public interface MinisterService {
 
     MinisterResponseDTO updateMinister(Long id, MinisterRequestDTO dto);
 
-    void deletarMinistro(Long id);
+    void deleteMinister(Long id);
 }

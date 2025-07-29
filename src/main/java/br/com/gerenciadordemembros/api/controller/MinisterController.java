@@ -22,4 +22,9 @@ public class MinisterController {
 
         return ResponseEntity.status(201).body(ministerCreate);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<MinisterResponseDTO> ministerById(@PathVariable Long id){
+        return ResponseEntity.ok(ministerService.searchMinisterById(id));
+    }
 }

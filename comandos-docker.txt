@@ -1,1 +1,1 @@
-docker run --name igrdb -p 5432:5432 -e POSTGRES_PASSWORD=1995 -e POSTGRES_USER=postgres -e POSTGRES_DB=igr postgres:16.3
+docker run --name igrejadb -p 5432:5432 -e POSTGRES_PASSWORD=Vyni1995 -e POSTGRES_USER=postgres -e POSTGRES_DB=igreja postgres:16.3

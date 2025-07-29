@@ -39,4 +39,10 @@ public class ChurchController {
     public ResponseEntity<ChurchResponseDTO> atualizarIgreja(@PathVariable Long id, @RequestBody ChurchRequestDTO dto){
         return ResponseEntity.ok(churchService.updateChurch(id, dto));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteChurch(@PathVariable Long id){
+        churchService.deleteChurch(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -56,7 +56,7 @@ public class Member implements Serializable {
     @JoinColumn(name = "igreja_id", referencedColumnName = "id")
     private Church church;
 
-    @OneToMany(mappedBy = "membro", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Minister> ministers;
 
     @Column(name = "criado_em", nullable = false)

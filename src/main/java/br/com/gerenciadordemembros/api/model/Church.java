@@ -37,6 +37,6 @@ public class Church implements Serializable {
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Address address;
 
-    @OneToMany(mappedBy = "igreja",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "church",cascade = CascadeType.ALL)
     private List<Member> members;
 }
