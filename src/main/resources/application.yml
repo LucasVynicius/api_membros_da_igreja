@@ -13,8 +13,8 @@ spring:
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
 
-# Configurações de Segurança e JWT
-application: # Este é o nível superior para suas configurações customizadas
+
+application:
   security:
     jwt:
       secret-key: UmJpb2hIeUpPbmRQd2Y3WHRoTm93YjRVM1k5cjBxMjNlNzl3Q3Y1QndkNDVCN2Q4YTVFNjY5YzBEMg==
