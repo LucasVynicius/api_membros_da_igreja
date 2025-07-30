@@ -12,3 +12,14 @@ spring:
       ddl-auto: update
     properties:
       hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Configurações de Segurança e JWT
+application: # Este é o nível superior para suas configurações customizadas
+  security:
+    jwt:
+      secret-key: UmJpb2hIeUpPbmRQd2Y3WHRoTm93YjRVM1k5cjBxMjNlNzl3Q3Y1QndkNDVCN2Q4YTVFNjY5YzBEMg==
+      access-token:
+        expiration: 900000
+
+      refresh-token:
+        expiration: 604800000
