@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/ministros")
+@RequestMapping("/ministros")
 public class MinisterController {
 
     private final MinisterService ministerService;

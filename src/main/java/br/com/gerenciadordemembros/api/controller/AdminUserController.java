@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/users") // Caminho base para operações de admin em usuários
+@RequestMapping("admin/users") // Caminho base para operações de admin em usuários
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')") // Garante que SOMENTE ADMINS acessem este controller
 public class AdminUserController {

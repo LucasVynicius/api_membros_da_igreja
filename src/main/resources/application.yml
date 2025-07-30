@@ -22,3 +22,8 @@ application:
 
       refresh-token:
         expiration: 604800000
+
+logging:
+  level:
+    org.hibernate.Sql: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE

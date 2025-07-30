@@ -30,12 +30,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // 🔓 Ignora caminhos públicos (login, registro, Swagger)
-        // ATENÇÃO: Os caminhos aqui devem corresponder EXATAMENTE aos que você define nos seus controllers.
-        // Se seu AuthenticationController está em @RequestMapping("/api/auth"), então deve ser "/api/auth/login"
-        // Se seus docs Swagger são "/v3/api-docs", etc.
-        if (path.startsWith("/api/auth/login") // Ajustado para /api/auth
-                || path.startsWith("/api/auth/register") // Ajustado para /api/auth
+
+        if (path.startsWith("/auth/login")
+                || path.startsWith("/auth/register")
                 || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-ui")
                 || path.equals("/swagger-ui.html")) {
@@ -46,23 +43,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            // Se não há token, ou não é um token Bearer, mas não é um caminho público,
-            // a requisição continua e o Spring Security irá interceptar e lançar um 403 Forbidden/401 Unauthorized
-            // se o endpoint acessado exigir autenticação.
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwt = authHeader.substring(7); // Extrai o token após "Bearer "
-        final String username = jwtService.extractUsername(jwt); // Extrai o username do token
+        final String jwt = authHeader.substring(7);
+        final String username = jwtService.extractUsername(jwt);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // Carrega os detalhes do usuário
+
             UserDetails userDetails = userService.loadUserByUsername(username);
 
-            // Valida o token
+
             if (jwtService.isTokenValid(jwt, userDetails)) {
-                // Se o token é válido, cria e seta o objeto de autenticação no SecurityContextHolder
+
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
@@ -70,13 +64,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             } else {
                 System.out.println("❌ Token inválido para o usuário: " + username);
-                // Opcional: Você pode querer lançar uma exceção ou enviar um erro 401 aqui
-                // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                // return;
+
             }
         }
 
-        // Continua a cadeia de filtros
+
         filterChain.doFilter(request, response);
     }
 }
