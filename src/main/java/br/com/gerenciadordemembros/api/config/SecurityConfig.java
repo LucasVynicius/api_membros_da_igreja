@@ -9,6 +9,7 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,11 +36,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("auth/login").permitAll()
-                        .requestMatchers("auth/register").permitAll()
-                        .requestMatchers("igrejas/**").hasAnyAuthority("ADMIN", "SECRETARY")
-                        .requestMatchers("membros/**").hasAnyAuthority("ADMIN", "SECRETARY")
-                        .requestMatchers("ministros/**").hasAuthority("ADMIN")
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/register").permitAll()
+                        .requestMatchers("/api/igrejas/**").hasAnyAuthority("ADMIN", "SECRETARY")
+                        .requestMatchers("/api/membros/**").hasAnyAuthority("ADMIN", "SECRETARY")
+                        .requestMatchers("/api/ministros/**").hasAuthority("ADMIN")
+                        .requestMatchers("/api/admin/users/**").hasAuthority("ADMIN")
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -47,6 +49,14 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers("/auth/login")
+                .requestMatchers("/auth/register")
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html");
     }
 
     @Bean

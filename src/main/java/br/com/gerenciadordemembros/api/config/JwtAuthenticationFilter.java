@@ -30,17 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-
-        if (path.startsWith("/auth/login")
-                || path.startsWith("/auth/register")
-                || path.startsWith("/v3/api-docs")
-                || path.startsWith("/swagger-ui")
-                || path.equals("/swagger-ui.html")) {
-            System.out.println("🔓 Caminho público, seguindo sem autenticação.");
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         final String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);

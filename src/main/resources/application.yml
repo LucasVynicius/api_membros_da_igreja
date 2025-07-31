@@ -18,12 +18,14 @@ application:
     jwt:
       secret-key: UmJpb2hIeUpPbmRQd2Y3WHRoTm93YjRVM1k5cjBxMjNlNzl3Q3Y1QndkNDVCN2Q4YTVFNjY5YzBEMg==
       access-token:
-        expiration: 900000
+        expiration: 28800000
 
       refresh-token:
-        expiration: 604800000
+        expiration: 2592000000
 
 logging:
   level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
     org.hibernate.Sql: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE

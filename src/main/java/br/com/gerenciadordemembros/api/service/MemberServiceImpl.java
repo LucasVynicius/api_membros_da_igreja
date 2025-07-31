@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
 
-        Church church = churchRepository.findById(dto.idIgreja())
+        Church church = churchRepository.findById(dto.idChurch())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente."));
 

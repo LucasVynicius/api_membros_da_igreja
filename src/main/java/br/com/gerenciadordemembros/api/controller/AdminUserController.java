@@ -14,28 +14,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("admin/users") // Caminho base para operações de admin em usuários
+@RequestMapping("/api/admin/users") // Caminho base para operações de admin em usuários
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('ADMIN')") // Garante que SOMENTE ADMINS acessem este controller
 public class AdminUserController {
 
     private final AdminUserService adminUserService;
 
-    /**
-     * Lista todos os usuários do sistema.
-     * Requer ROLE ADMIN.
-     * GET /api/admin/users
-     */
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(adminUserService.getAllUsers());
     }
 
-    /**
-     * Ativa ou desativa um usuário.
-     * Requer ROLE ADMIN.
-     * PUT /api/admin/users/{userId}/enable
-     */
+
     @PutMapping("/{userId}/enable")
     public ResponseEntity<UserResponseDTO> activateUser(
             @PathVariable Long userId,
@@ -44,11 +35,7 @@ public class AdminUserController {
         return ResponseEntity.ok(adminUserService.activateUser(userId, request));
     }
 
-    /**
-     * Reseta a senha de um usuário.
-     * Requer ROLE ADMIN.
-     * PUT /api/admin/users/{userId}/reset-password
-     */
+
     @PutMapping("/{userId}/reset-password")
     public ResponseEntity<UserResponseDTO> resetUserPassword(
             @PathVariable Long userId,
@@ -57,11 +44,6 @@ public class AdminUserController {
         return ResponseEntity.ok(adminUserService.resetUserPassword(userId, request));
     }
 
-    /**
-     * Deleta um usuário.
-     * Requer ROLE ADMIN.
-     * DELETE /api/admin/users/{userId}
-     */
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
         adminUserService.deleteUser(userId);

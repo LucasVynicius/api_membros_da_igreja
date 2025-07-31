@@ -24,8 +24,11 @@ public record MemberRequestDTO(
         LocalDate baptismDate,
         @NotNull
         LocalDate entryDate,
+
         Boolean active,
+
         AddressDTO address,
-        Long idIgreja
+
+        Long idChurch
 ) {
 }

@@ -6,11 +6,12 @@ import br.com.gerenciadordemembros.api.service.MinisterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/ministros")
+@RequestMapping("/api/ministros")
 public class MinisterController {
 
     private final MinisterService ministerService;

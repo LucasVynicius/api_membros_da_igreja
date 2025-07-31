@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/membros")
+@RequestMapping("/api/membros")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -20,7 +20,8 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<MemberResponseDTO> createMember(@RequestBody @Valid MemberRequestDTO dto){
-        MemberResponseDTO membrerCreated= memberService.registerMember(dto);
+
+        MemberResponseDTO membrerCreated = memberService.registerMember(dto);
         return ResponseEntity.status(201).body(membrerCreated);
     }
 
