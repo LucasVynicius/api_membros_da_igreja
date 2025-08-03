@@ -27,9 +27,13 @@ public class MinisterServiceImpl implements MinisterService {
     private final MemberRepository memberRepository;
 
 
-
+    @Transactional
     @Override
     public MinisterResponseDTO consecrateMinister(MinisterRequestDTO dto) {
+
+        if (ministerRepository.existsByMemberId(dto.idMember())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este membro já possui um cargo ministerial.");
+        }
 
         Member member = memberRepository.findById(dto.idMember())
                 .orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Membro não encontrado"));
@@ -64,34 +68,21 @@ public class MinisterServiceImpl implements MinisterService {
                 () ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado")
         );
 
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
-
-
-        Church church = churchRepository.findById(dto.idChurch())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente."));
-
         if (!minister.getMember().getId().equals(dto.idMember())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar o membro de um registro ministerial existente. " +
-                    "Crie um novo registro se for para outro membro..");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar o membro de um registro ministerial.");
         }
         if (!minister.getChurch().getId().equals(dto.idChurch())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar a igreja de um registro ministerial existente. " +
-                    "Crie um novo registro se for de outra igreja.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar a igreja de um registro ministerial.");
         }
 
-        minister.setPosition(dto.position());
-        minister.setConsecrationDate(dto.consecrationDate());
+        ministerMapper.updateMinisterFromDto(dto, minister);
 
 
-        ministerRepository.save(minister);
-
-        return ministerMapper.toDTO(minister);
+        return ministerMapper.toDTO(ministerRepository.save(minister));
 
     }
 
+    @Transactional
     @Override
     public void deleteMinister(Long id) {
         if (!ministerRepository.existsById(id)){

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "tb_igreja")
+@Table(name = "tb_igreja", uniqueConstraints = {@UniqueConstraint(columnNames = {"nome_igreja", "endereco_id"})})
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -26,8 +26,12 @@ public class Church implements Serializable {
     @Column(name = "nome_fantasia", length = 100, nullable = false)
     private String tradeName;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "registro_id", referencedColumnName = "id")
+    private Registry registry;
+
     @OneToOne
-    @JoinColumn(name = "pastor_local_id", referencedColumnName = "id")
+    @JoinColumn(name = "pastor_local_id", referencedColumnName = "id", nullable = false)
     private Minister pastorLocal;
 
     @Column(name = "data_fundacao", nullable = false)

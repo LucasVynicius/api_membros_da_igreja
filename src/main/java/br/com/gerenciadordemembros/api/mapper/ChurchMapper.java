@@ -5,6 +5,7 @@ import br.com.gerenciadordemembros.api.dtos.ChurchResponseDTO;
 import br.com.gerenciadordemembros.api.model.Church;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ChurchMapper {
@@ -14,15 +15,16 @@ public interface ChurchMapper {
     @Mapping(target = "members", ignore = true)
     Church toEntity(ChurchRequestDTO dto);
 
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "tradeName", target = "tradeName")
-    @Mapping(source = "address.city", target = "city")
-    @Mapping(source = "address.country", target = "country")
-    @Mapping(source = "foundationDate", target = "foundationDate")
+    @Mapping(source = "registry.registryType", target = "registryType")
+    @Mapping(source = "registry.registryNumber", target = "registryNumber")
     @Mapping(source = "pastorLocal.id", target = "pastorLocalId")
     @Mapping(source = "pastorLocal.member.fullName", target = "pastorLocalName")
-    @Mapping(source = "address", target = "address")
     ChurchResponseDTO toDTO(Church church);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "pastorLocal", ignore = true)
+    @Mapping(target = "members", ignore = true)
+    @Mapping(target = "address", ignore = true)
+    @Mapping(target = "registry", ignore = true)
+    void updateChurchFromDto(ChurchRequestDTO dto, @MappingTarget Church church);
 }

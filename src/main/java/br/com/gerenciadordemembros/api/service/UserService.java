@@ -1,22 +1,16 @@
 package br.com.gerenciadordemembros.api.service;
 
-import br.com.gerenciadordemembros.api.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import br.com.gerenciadordemembros.api.dtos.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public interface UserService extends UserDetailsService {
 
-    private final UserRepository userRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontra!"));
-    }
+    UserResponseDTO createUser(UserRequestDTO request);
+
+    List<UserResponseDTO> getAllUsers();
+    void activateUser(Long userId, UserActivationRequest request);
+    UserResponseDTO resetUserPassword(Long userId, UserPasswordResetRequest request);
+    void deleteUser(Long userId);
 }

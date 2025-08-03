@@ -39,14 +39,14 @@ public class Member implements Serializable {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(name = "data_batismo", nullable = false)
+    @Column(name = "data_batismo")
     private LocalDate baptismDate;
 
-    @Column(name = "data_entrada", nullable = false)
+    @Column(name = "data_entrada")
     private LocalDate entryDate;
 
     @Column(name = "ativo", nullable = false)
-    private Boolean active;
+    private Boolean active = true;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -26,9 +27,21 @@ public class MemberServiceImpl implements MemberService {
     private final AddressMapper addressMapper;
     private final ChurchRepository churchRepository;
 
+    @Transactional
     @Override
     public MemberResponseDTO registerMember(MemberRequestDTO dto) {
+
+        if (memberRepository.existsByCpf(dto.cpf())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF já cadastrado no sistema.");
+        }
+
+        Church church = churchRepository.findById(dto.idChurch())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Erro: Igreja não encontrada. Não é possível registrar o membro."));
+
        Member member = memberMapper.toEntity(dto);
+        member.setChurch(church);
+
        return memberMapper.toDTO(memberRepository.save(member));
     }
 
@@ -54,26 +67,18 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." ));
 
+        if (!Objects.equals(member.getCpf(), dto.cpf()) && memberRepository.existsByCpf(dto.cpf())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "CPF informado já pertence a outro membro.");
+        }
+
         Church church = churchRepository.findById(dto.idChurch())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Igreja não encontrada. Verifique se o ID informado está correto e tente novamente."));
 
-        member.setFullName(dto.fullName());
-        member.setCpf(dto.cpf());
-        member.setRg(dto.rg());
-        member.setTelephone(dto.telephone());
-        member.setEmail(dto.email());
-        member.setDateOfBirth(dto.dateOfBirth());
-        member.setBaptismDate(dto.baptismDate());
-        member.setEntryDate(dto.entryDate());
-        member.setActive(dto.active());
-        member.setAddress(addressMapper.toEntity(dto.address()));
+        memberMapper.updateMemberFromDto(dto, member);
         member.setChurch(church);
 
-
-        memberRepository.save(member);
-
-        return memberMapper.toDTO(member);
+        return memberMapper.toDTO(memberRepository.save(member));
     }
 
     @Transactional

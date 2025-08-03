@@ -6,6 +6,8 @@ public record ChurchResponseDTO(
         Long id,
         String name,
         String tradeName,
+        String registryType,
+        String registryNumber,
         String city,
         String country,
         LocalDate foundationDate,

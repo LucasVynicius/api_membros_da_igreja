@@ -1,13 +1,14 @@
 package br.com.gerenciadordemembros.api.service;
 
-import br.com.gerenciadordemembros.api.dtos.UserActivationRequest;
-import br.com.gerenciadordemembros.api.dtos.UserPasswordResetRequest;
-import br.com.gerenciadordemembros.api.dtos.UserResponseDTO;
+import br.com.gerenciadordemembros.api.dtos.*;
+import br.com.gerenciadordemembros.api.mapper.UserMapper;
 import br.com.gerenciadordemembros.api.model.User;
 import br.com.gerenciadordemembros.api.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,28 +18,52 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AdminUserServiceImpl implements AdminUserService{
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
+
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado!"));
+    }
+
+
+    @Override
+    @Transactional
+    public UserResponseDTO createUser(UserRequestDTO request) {
+        if (userRepository.existsByUsername(request.username())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username já está em uso.");
+        }
+        if (userRepository.existsByEmail(request.email())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já está em uso.");
+        }
+
+        User newUser = userMapper.toEntity(request);
+        newUser.setPassword(passwordEncoder.encode(request.password()));
+
+        User savedUser = userRepository.save(newUser);
+        return userMapper.toDTO(savedUser);
+    }
+
 
     @Override
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(user -> new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole()))
+                .map(userMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public UserResponseDTO activateUser(Long userId, UserActivationRequest request) {
+    public void activateUser(Long userId, UserActivationRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
-
         user.setEnabled(request.enabled());
         userRepository.save(user);
-
-        return new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole());
     }
 
     @Override
@@ -46,18 +71,16 @@ public class AdminUserServiceImpl implements AdminUserService{
     public UserResponseDTO resetUserPassword(Long userId, UserPasswordResetRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
-
         user.setPassword(passwordEncoder.encode(request.newPassword()));
-        userRepository.save(user);
 
-        return new UserResponseDTO(user.getUsername(), user.getEmail(), user.getRole());
+        return userMapper.toDTO(userRepository.save(user));
     }
 
     @Override
     @Transactional
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado para exclusão.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado.");
         }
         userRepository.deleteById(userId);
     }

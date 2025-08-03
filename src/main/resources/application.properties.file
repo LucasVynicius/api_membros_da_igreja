@@ -1,0 +1,19 @@
+# Configurações do banco de dados em memória H2 para testes
+spring.datasource.url=jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=true
+
+# --- Propriedades de Segurança para JWT (COMPLETO) ---
+# Chave secreta (a que já tínhamos colocado)
+application.security.jwt.secret-key=5367566B5970337336763979244226452948404D635166546A576E5A72347537
+
+# Tempo de expiração (a que está faltando agora)
+# Valores em milissegundos. Ex: 1 hora para o teste está bom.
+application.security.jwt.access-token.expiration=3600000 
+
+# Verifique se você tem uma propriedade para o refresh token também e a adicione
+# Exemplo: 7 dias em milissegundos
+application.security.jwt.refresh-token.expiration=604800000

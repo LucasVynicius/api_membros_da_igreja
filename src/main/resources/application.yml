@@ -2,10 +2,10 @@ spring:
   application:
     name: Gerenciamento de membros
   datasource:
-    url: jdbc:postgresql://localhost:5432/igreja
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/igreja}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: Vyni1995
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:}
   jpa:
     show-sql: true
     hibernate:
@@ -16,7 +16,7 @@ spring:
 application:
   security:
     jwt:
-      secret-key: UmJpb2hIeUpPbmRQd2Y3WHRoTm93YjRVM1k5cjBxMjNlNzl3Q3Y1QndkNDVCN2Q4YTVFNjY5YzBEMg==
+      secret-key: ${JWT_SECRET_KEY:UmJpb2hIeUpPbmRQd2Y3WHRoTm93YjRVM1k5cjBxMjNlNzl3Q3Y1QndkNDVCN2Q4YTVFNjY5YzBEMg==}
       access-token:
         expiration: 28800000
 

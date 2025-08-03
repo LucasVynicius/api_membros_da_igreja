@@ -24,7 +24,7 @@ public class Address implements Serializable {
     @Column(name = "numero", nullable = false, length = 10)
     private String number;
 
-    @Column(name = "complemento", nullable = false, length = 50)
+    @Column(name = "complemento", length = 50)
     private String complement;
 
     @Column(name = "bairro", nullable = false, length = 50)

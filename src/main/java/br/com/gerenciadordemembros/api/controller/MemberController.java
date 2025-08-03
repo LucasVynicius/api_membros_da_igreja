@@ -39,4 +39,10 @@ public class MemberController {
     public ResponseEntity<MemberResponseDTO> updateMember(@PathVariable Long id, @Valid @RequestBody MemberRequestDTO dto){
         return ResponseEntity.ok(memberService.updateMember(id, dto));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteMember(@PathVariable Long id){
+        memberService.deleteMember(id);
+        return ResponseEntity.noContent().build();
+    }
 }
