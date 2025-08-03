@@ -32,8 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-### Config ###
-!**/src/main/resources/application.yml
 
 # Arquivo com seus comandos de Docker (se for de uso pessoal)
-comandos-docker.txt
+./comandos-docker.txt
