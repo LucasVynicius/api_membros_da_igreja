@@ -1,5 +1,6 @@
 package br.com.gerenciadordemembros.api.dtos;
 
+import br.com.gerenciadordemembros.api.enums.RegistryType;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,9 +16,11 @@ public record ChurchRequestDTO(
 
         @Valid
         @NotNull(message = "O registro da igreja é obrigatório")
-        RegistryDTO registry,
+        RegistryType registryType,
 
-        @NotNull(message = "Informe o pastor Local")
+        @NotNull(message = "O número do registro da igreja é obrigatório")
+        String registryNumber,
+
         Long pastorLocalId,
 
         @NotNull(message = "A data de fundação é obrigatória")

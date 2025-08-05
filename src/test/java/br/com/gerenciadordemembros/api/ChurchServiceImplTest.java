@@ -3,7 +3,6 @@ package br.com.gerenciadordemembros.api;
 import br.com.gerenciadordemembros.api.dtos.AddressDTO;
 import br.com.gerenciadordemembros.api.dtos.ChurchRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.ChurchResponseDTO;
-import br.com.gerenciadordemembros.api.dtos.RegistryDTO;
 import br.com.gerenciadordemembros.api.enums.MinisterialPosition;
 import br.com.gerenciadordemembros.api.model.Member;
 import br.com.gerenciadordemembros.api.model.Minister;

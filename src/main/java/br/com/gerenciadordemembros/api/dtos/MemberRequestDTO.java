@@ -20,9 +20,7 @@ public record MemberRequestDTO(
         String email,
         @NotNull
         LocalDate dateOfBirth,
-        @NotNull
         LocalDate baptismDate,
-        @NotNull
         LocalDate entryDate,
 
         Boolean active,

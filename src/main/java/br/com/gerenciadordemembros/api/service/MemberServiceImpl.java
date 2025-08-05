@@ -4,8 +4,10 @@ import br.com.gerenciadordemembros.api.dtos.MemberRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MemberResponseDTO;
 import br.com.gerenciadordemembros.api.mapper.AddressMapper;
 import br.com.gerenciadordemembros.api.mapper.MemberMapper;
+import br.com.gerenciadordemembros.api.model.Address;
 import br.com.gerenciadordemembros.api.model.Church;
 import br.com.gerenciadordemembros.api.model.Member;
+import br.com.gerenciadordemembros.api.repository.AddressRepository;
 import br.com.gerenciadordemembros.api.repository.ChurchRepository;
 import br.com.gerenciadordemembros.api.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -24,6 +26,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
+    private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
     private final ChurchRepository churchRepository;
 
@@ -41,6 +44,14 @@ public class MemberServiceImpl implements MemberService {
 
        Member member = memberMapper.toEntity(dto);
         member.setChurch(church);
+
+        String unformattedCpf = dto.cpf().replaceAll("[^0-9]", "");
+        member.setCpf(unformattedCpf);
+
+        if (dto.address() != null) {
+            Address savedAddress = addressRepository.save(addressMapper.toEntity(dto.address()));
+            member.setAddress(savedAddress);
+        }
 
        return memberMapper.toDTO(memberRepository.save(member));
     }

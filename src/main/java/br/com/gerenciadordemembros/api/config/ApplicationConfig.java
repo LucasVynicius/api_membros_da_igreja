@@ -19,13 +19,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class ApplicationConfig {
 
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder; // <-- 1. INJETAMOS O BEAN CRIADO PELA PasswordConfig
+    private final PasswordEncoder passwordEncoder;
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userService);
-        authProvider.setPasswordEncoder(passwordEncoder); // <-- 2. USAMOS O BEAN INJETADO
+        authProvider.setPasswordEncoder(passwordEncoder);
         return authProvider;
     }
 
@@ -53,7 +53,7 @@ public class ApplicationConfig {
 
                         .email("pravania.jp@hotmail.com")
 
-                        .password(passwordEncoder.encode("Vyni1995")) // Senha inicial
+                        .password(passwordEncoder.encode("Vyni1995"))
 
                         .role(Role.ADMIN)
 

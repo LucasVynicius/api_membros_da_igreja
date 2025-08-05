@@ -1,28 +1,29 @@
 package br.com.gerenciadordemembros.api.validator;
 
-import br.com.gerenciadordemembros.api.dtos.RegistryDTO;
+import br.com.gerenciadordemembros.api.enums.RegistryType;
 
 public class RegistryValidator {
 
-    public static boolean isValid(RegistryDTO registry) {
-        if (registry == null || registry.registryType() == null || registry.registryNumber() == null) {
+    /**
+     * Valida um número de registro com base no seu tipo.
+     * @param type O tipo de registro (CNPJ ou NIF).
+     * @param number A string com o número do registro.
+     * @return true se for válido, false caso contrário.
+     */
+    public static boolean isValid(RegistryType type, String number) {
+        if (type == null || number == null || number.isBlank()) {
             return false;
         }
 
-        // Converte para maiúsculas para evitar problemas com 'Cnpj' vs 'CNPJ'
-        String type = registry.registryType().toUpperCase();
-        String number = registry.registryNumber();
-
         return switch (type) {
-            case "CNPJ" -> isCnpjValid(number);
-            case "NIF" -> isNifValid(number);
-            // Futuramente, você pode adicionar outros tipos aqui
-            // case "SSN" -> isSsnValid(number); 
-            default -> false; // Ou 'true' se registros sem validação são permitidos
+            case CNPJ -> isCnpjValid(number);
+            case NIF -> isNifValid(number);
         };
-    }
+    } // <-- O FECHA-CHAVES '}' ESTAVA FALTANDO AQUI
 
-    // Lógica de validação para CNPJ (Brasil)
+    /**
+     * Lógica de validação para CNPJ (Brasil).
+     */
     private static boolean isCnpjValid(String cnpj) {
         // Remove caracteres não numéricos
         cnpj = cnpj.replaceAll("[^0-9]", "");
@@ -32,13 +33,13 @@ public class RegistryValidator {
             return false;
         }
 
-        // Verifica se todos os dígitos são iguais (ex: 11.111.111/1111-11), o que é inválido
+        // Verifica se todos os dígitos são iguais, o que é inválido
         if (cnpj.matches("(\\d)\\1{13}")) {
             return false;
         }
 
         try {
-
+            // Cálculo do primeiro dígito verificador
             int sum = 0;
             int weight = 5;
             for (int i = 0; i < 12; i++) {
@@ -71,7 +72,9 @@ public class RegistryValidator {
         }
     }
 
-    // Lógica de validação para NIF (Portugal)
+    /**
+     * Lógica de validação para NIF (Portugal).
+     */
     private static boolean isNifValid(String nif) {
         // Remove caracteres não numéricos
         nif = nif.replaceAll("[^0-9]", "");

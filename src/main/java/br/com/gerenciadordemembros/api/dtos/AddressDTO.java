@@ -10,7 +10,6 @@ public record AddressDTO(
         @JsonProperty("street")
         String street,
 
-        @NotBlank(message = "Número é obrigatório")
         @Size(max = 10)
         @JsonProperty("number")
         String number,

@@ -8,7 +8,6 @@ public interface UserService extends UserDetailsService {
 
 
     UserResponseDTO createUser(UserRequestDTO request);
-
     List<UserResponseDTO> getAllUsers();
     void activateUser(Long userId, UserActivationRequest request);
     UserResponseDTO resetUserPassword(Long userId, UserPasswordResetRequest request);

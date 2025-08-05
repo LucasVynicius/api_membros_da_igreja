@@ -1,5 +1,6 @@
 package br.com.gerenciadordemembros.api.model;
 
+import br.com.gerenciadordemembros.api.enums.RegistryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,8 +19,9 @@ public class Registry implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tipo_registro", nullable = false, length = 10)
-    private String registryType;
+    private RegistryType registryType;
 
     @Column(name = "numero_registro", nullable = false, unique = true, length = 20)
     private String registryNumber;

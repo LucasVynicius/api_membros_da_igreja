@@ -31,7 +31,7 @@ public class Church implements Serializable {
     private Registry registry;
 
     @OneToOne
-    @JoinColumn(name = "pastor_local_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "pastor_local_id", referencedColumnName = "id")
     private Minister pastorLocal;
 
     @Column(name = "data_fundacao", nullable = false)
