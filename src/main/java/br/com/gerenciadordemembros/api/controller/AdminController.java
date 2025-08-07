@@ -16,14 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')") // Protege todos os endpoints da classe para ADMIN
+@PreAuthorize("hasAuthority('ADMIN')") // Protege todos os endpoints da classe para ADMIN
 public class AdminController {
 
     private final UserService userService;
 
-    // Endpoint de criação, acessível por SECRETARY também (sobrescreve a segurança da classe)
+
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'SECRETARY')")
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SECRETARY')")
     public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO request) {
         UserResponseDTO createdUser = userService.createUser(request);
         return ResponseEntity.status(201).body(createdUser);
