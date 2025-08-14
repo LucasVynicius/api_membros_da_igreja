@@ -1,7 +1,7 @@
 package br.com.gerenciadordemembros.api.enums;
 
 public enum MinisterialPosition {
-    PASTOR_PRESIDENTE("Pastor Presidente"),
+    PRESIDENT("Pastor Presidente"),
     VICE_PRESIDENT("Vice-presidente"),
     AUXILIARY_PASTOR("Pastor Auxiliar"),
     SHEPHERD("Pastor"),

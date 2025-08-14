@@ -14,8 +14,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +31,7 @@ public class MemberServiceImpl implements MemberService {
     private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
     private final ChurchRepository churchRepository;
+    private final PhotoService photoService;
 
     @Transactional
     @Override
@@ -57,7 +60,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberResponseDTO searchMemberById(Long id) {
+    public MemberResponseDTO getMemberById(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente."));
@@ -95,12 +98,29 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void deleteMember(Long id) {
-        if (!memberRepository.existsById(id)){
+        if (!memberRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente." );
+                    "Erro: Membro não encontrado. Verifique se o ID informado está correto e tente novamente.");
         }
 
         memberRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public MemberResponseDTO uploadPhoto(Long id, MultipartFile file) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Membro não encontrado."));
+
+        try {
+            String photoPath = photoService.savePhoto(file, "members");
+            member.setPhotoUrl(photoPath);
+            memberRepository.save(member);
+        } catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao fazer upload da foto.");
+        }
+
+        return memberMapper.toDTO(member);
     }
 
 

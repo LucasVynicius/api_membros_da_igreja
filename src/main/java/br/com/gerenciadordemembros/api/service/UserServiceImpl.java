@@ -78,6 +78,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public UserResponseDTO updateUser(Long id, UserUpdateRequestDTO request) {
+        User existingUser = userRepository.findById(request.id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado."));
+
+        if (!existingUser.getUsername().equals(request.username()) && userRepository.existsByUsername(request.username())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username já está em uso por outro usuário.");
+        }
+        if (!existingUser.getEmail().equals(request.email()) && userRepository.existsByEmail(request.email())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email já está em uso por outro usuário.");
+        }
+
+        existingUser.setUsername(request.username());
+        existingUser.setFirstName(request.firstName());
+        existingUser.setLastName(request.lastName());
+        existingUser.setEmail(request.email());
+        existingUser.setRole(request.role());
+        existingUser.setEnabled(request.enabled());
+
+        User updatedUser = userRepository.save(existingUser);
+        return userMapper.toDTO(updatedUser);
+    }
+
+    @Override
+    @Transactional
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuário não encontrado.");

@@ -1,9 +1,6 @@
 package br.com.gerenciadordemembros.api.controller;
 
-import br.com.gerenciadordemembros.api.dtos.UserActivationRequest;
-import br.com.gerenciadordemembros.api.dtos.UserPasswordResetRequest;
-import br.com.gerenciadordemembros.api.dtos.UserRequestDTO;
-import br.com.gerenciadordemembros.api.dtos.UserResponseDTO;
+import br.com.gerenciadordemembros.api.dtos.*;
 import br.com.gerenciadordemembros.api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
-@PreAuthorize("hasAuthority('ADMIN')") // Protege todos os endpoints da classe para ADMIN
+@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
     private final UserService userService;
@@ -47,6 +44,15 @@ public class AdminController {
             @RequestBody @Valid UserPasswordResetRequest request
     ) {
         UserResponseDTO updatedUser = userService.resetUserPassword(userId, request);
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> updateUser(
+            @PathVariable Long id,
+            @RequestBody @Valid UserUpdateRequestDTO request
+    ) {
+        UserResponseDTO updatedUser = userService.updateUser(id, request);
         return ResponseEntity.ok(updatedUser);
     }
 

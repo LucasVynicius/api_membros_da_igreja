@@ -36,6 +36,9 @@ public class Member implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "foto")
+    private String photoUrl;
+
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dateOfBirth;
 

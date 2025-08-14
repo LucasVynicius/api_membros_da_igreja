@@ -2,6 +2,8 @@ package br.com.gerenciadordemembros.api.service;
 
 import br.com.gerenciadordemembros.api.dtos.MinisterRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MinisterResponseDTO;
+import br.com.gerenciadordemembros.api.enums.MinisterialPosition;
+import br.com.gerenciadordemembros.api.enums.Role;
 import br.com.gerenciadordemembros.api.mapper.MinisterMapper;
 import br.com.gerenciadordemembros.api.model.Church;
 import br.com.gerenciadordemembros.api.model.Member;
@@ -30,24 +32,31 @@ public class MinisterServiceImpl implements MinisterService {
     @Transactional
     @Override
     public MinisterResponseDTO consecrateMinister(MinisterRequestDTO dto) {
+        if (dto.position().equals(MinisterialPosition.PRESIDENT) || dto.position().equals(Role.ADMIN)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este cargo não pode ser atribuído a um ministro.");
+        }
+
 
         if (ministerRepository.existsByMemberId(dto.idMember())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Este membro já possui um cargo ministerial.");
         }
 
+
         Member member = memberRepository.findById(dto.idMember())
-                .orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Membro não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Membro não encontrado"));
 
         Church church = churchRepository.findById(dto.idChurch())
-                .orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Igreja não encontrado"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Igreja não encontrada"));
 
-        Minister minister = ministerMapper.toEntity(dto);
+        Minister minister = new Minister();
         minister.setMember(member);
         minister.setChurch(church);
+        minister.setPosition(dto.position());
+        minister.setConsecrationDate(dto.consecrationDate());
+
 
         return ministerMapper.toDTO(ministerRepository.save(minister));
     }
-
     @Override
     public MinisterResponseDTO searchMinisterById(Long id) {
         Minister minister = ministerRepository.findById(id).orElseThrow(
@@ -61,25 +70,29 @@ public class MinisterServiceImpl implements MinisterService {
         return ministerRepository.findAll().stream().map(ministerMapper::toDTO).toList();
     }
 
-    @Transactional
     @Override
+    @Transactional
     public MinisterResponseDTO updateMinister(Long id, MinisterRequestDTO dto) {
-        Minister minister = ministerRepository.findById(id).orElseThrow(
-                () ->new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado")
-        );
+
+        Minister minister = ministerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ministro não encontrado"));
+
 
         if (!minister.getMember().getId().equals(dto.idMember())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar o membro de um registro ministerial.");
         }
+
+
         if (!minister.getChurch().getId().equals(dto.idChurch())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não é permitido alterar a igreja de um registro ministerial.");
+            Church newChurch = churchRepository.findById(dto.idChurch())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "A nova igreja informada não foi encontrada."));
+            minister.setChurch(newChurch);
         }
+
 
         ministerMapper.updateMinisterFromDto(dto, minister);
 
-
         return ministerMapper.toDTO(ministerRepository.save(minister));
-
     }
 
     @Transactional

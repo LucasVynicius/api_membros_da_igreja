@@ -18,6 +18,7 @@ public record MemberResponseDTO(
         String churchName,
         String churchTradeName,
         String churchCity,
-        String churchCounty
+        String churchCounty,
+        String photoUrl
 ) {
 }

@@ -3,6 +3,7 @@ package br.com.gerenciadordemembros.api.service;
 import br.com.gerenciadordemembros.api.dtos.MemberRequestDTO;
 import br.com.gerenciadordemembros.api.dtos.MemberResponseDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,12 +12,15 @@ public interface MemberService {
 
     MemberResponseDTO registerMember(MemberRequestDTO dto);
 
-    MemberResponseDTO searchMemberById(Long id);
+    MemberResponseDTO getMemberById(Long id);
 
     List<MemberResponseDTO> searchAllMember();
 
     MemberResponseDTO updateMember(Long id, MemberRequestDTO dto);
 
     void deleteMember(Long id);
+
+    MemberResponseDTO uploadPhoto(Long id, MultipartFile file);
+
 
 }

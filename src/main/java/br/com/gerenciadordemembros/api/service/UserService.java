@@ -11,5 +11,6 @@ public interface UserService extends UserDetailsService {
     List<UserResponseDTO> getAllUsers();
     void activateUser(Long userId, UserActivationRequest request);
     UserResponseDTO resetUserPassword(Long userId, UserPasswordResetRequest request);
+    UserResponseDTO updateUser(Long id, UserUpdateRequestDTO request);
     void deleteUser(Long userId);
 }

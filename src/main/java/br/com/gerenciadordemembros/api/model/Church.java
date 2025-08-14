@@ -43,4 +43,5 @@ public class Church implements Serializable {
 
     @OneToMany(mappedBy = "church",cascade = CascadeType.ALL)
     private List<Member> members;
+
 }
