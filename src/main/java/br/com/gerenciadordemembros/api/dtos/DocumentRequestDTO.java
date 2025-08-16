@@ -4,6 +4,7 @@ import br.com.gerenciadordemembros.api.enums.DocumentType;
 
 public record DocumentRequestDTO(
         DocumentType documentType,
-        Long idMember
+        Long idMember,
+        String purpose
 ) {
 }
